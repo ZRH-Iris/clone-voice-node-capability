@@ -20,8 +20,9 @@ SKILL_DIR = BASE / 'skills' / 'clone-voice-capability'
 REQUIRED_MODEL_FILES = ['config.json', 'model.safetensors', 'audiovae.pth']
 
 
-def run(cmd, check=True, cwd=None, env=None):
-    print('+', ' '.join(map(str, cmd)))
+def run(cmd, check=True, cwd=None, env=None, quiet=True):
+    if quiet:
+        return subprocess.run(cmd, check=check, cwd=cwd, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     return subprocess.run(cmd, check=check, cwd=cwd, env=env)
 
 
@@ -156,33 +157,44 @@ def install_skill_note():
 def verify():
     py = ENV_DIR / 'bin' / 'python'
     script = RUNTIME_DIR / 'clone_voice.py'
-    run([str(py), str(script), '--check'])
+    result = subprocess.run([str(py), str(script), '--check'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    if result.returncode != 0:
+        raise RuntimeError('环境验证没有通过，请检查模型文件、依赖或显卡环境。')
 
 
 def main():
-    print(f'开始安装「{CAPABILITY_NAME}」能力 v{VERSION}')
+    print('收到，正在为你安装「克隆声音」能力。')
+    print('我会自动完成准备和验证，你暂时不需要做任何技术操作。')
     ensure_dirs()
     ensure_ffmpeg()
     py = ensure_python_env()
-    print('Python 环境:', py)
     if not model_ready():
+        print('正在准备声音模型，可能需要几分钟，请稍等。')
         try_download_model()
+    print('正在完成配置和可用性验证。')
     install_runtime()
     install_skill_note()
     verify()
-    print('\n安装完成。')
-    print('我已经安装好「克隆声音」能力。')
-    print('接下来你可以直接给我发：')
-    print('1. 一段你授权使用的参考声音，最好 5-15 秒，环境安静、只有一个人说话；')
-    print('2. 你希望用这个声音朗读的文字。')
-    print('我会用这段参考声音的音色，按照你提供的文字生成配音。')
-    print('以后你再次使用时，可以直接说：“用我的声音朗读这段文字”，然后发送参考声音和文字即可。')
+    print('')
+    print('「克隆声音」已经安装成功，可以开始使用了。')
+    print('')
+    print('接下来请直接发给我两样东西：')
+    print('1. 一段你本人或已授权的参考声音，建议 5-15 秒，环境安静，只有一个人说话；')
+    print('2. 你想让这个声音朗读的文字。')
+    print('')
+    print('你可以这样发：')
+    print('“用我的声音朗读下面这段文字。”')
+    print('然后把录音和文案一起发给我。')
+    print('')
+    print('以后再次使用时，不需要重新安装，直接说：“用我的声音朗读这段文字”即可。')
 
 
 if __name__ == '__main__':
     try:
         main()
     except Exception as e:
-        print('\n安装失败：', e, file=sys.stderr)
-        print('请根据上面的失败原因处理后重试；不要在验证失败时声称安装成功。', file=sys.stderr)
+        print('', file=sys.stderr)
+        print('「克隆声音」暂时没有安装成功。', file=sys.stderr)
+        print('原因：' + str(e), file=sys.stderr)
+        print('你可以把这段失败提示转发给我，我会继续帮你处理。', file=sys.stderr)
         sys.exit(1)
