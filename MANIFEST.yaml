@@ -1,0 +1,22 @@
+name: clone-voice-node-capability
+display_name: 克隆声音
+version: 1.0.1
+description: 用户提供参考声音和文字后，Hermes 用参考声音的音色朗读指定文字。
+entry: AUTO_INSTALL_FOR_HERMES.md
+installer: installer/install_clone_voice.py
+runtime: runtime/clone_voice.py
+usage:
+  trigger_examples:
+    - 用我的声音朗读这段文字
+    - 我发一段录音和文案，请克隆声音配音
+    - 用这个参考声音读下面这段话
+  required_inputs:
+    - 参考声音，建议 5-15 秒，本人授权，环境安静，单人说话
+    - 目标文字，需要被朗读的文本
+safety:
+  - 只使用本人或已授权声音
+  - 不用于冒充、欺骗或未经授权复制他人声音
+notes:
+  - 参考声音只用于提取音色
+  - 朗读内容必须以用户提供的目标文字为准
+  - runtime 应使用 reference_wav_path 作为音色参考，不应把参考音频作为 prompt_wav_path 续写内容
