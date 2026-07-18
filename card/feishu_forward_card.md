@@ -4,7 +4,7 @@
 
 请读取并严格执行这个能力，为当前 Hermes/节点安装“克隆声音”。不要只总结内容，不要让我做技术选择或额外确认。安装完成后，请主动告诉我安装结果，并告诉我下一步如何上传参考声音和文字来生成配音：
 
-https://github.com/OWNER/clone-voice-node-capability
+https://github.com/ZRH-Iris/clone-voice-node-capability
 
 ## 安装完成后这样用
 
