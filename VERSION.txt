@@ -1,0 +1,4 @@
+clone-voice-node-capability v1.0.1
+- 修复：参考声音改用 reference_wav_path，避免不按目标文字朗读。
+- 新增：GitHub 链接自动安装说明、安装包兜底说明、安装后使用指令。
+- 新增：安装器自动写入 Hermes 使用说明并执行 --check 验证。
