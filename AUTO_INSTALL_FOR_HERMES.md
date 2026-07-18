@@ -31,7 +31,7 @@ python3 installer/install_clone_voice.py
 如果当前环境无法从相对路径执行，请先克隆仓库后执行：
 
 ```bash
-git clone https://github.com/OWNER/clone-voice-node-capability.git
+git clone https://github.com/ZRH-Iris/clone-voice-node-capability.git
 cd clone-voice-node-capability
 python3 installer/install_clone_voice.py
 ```
@@ -41,7 +41,7 @@ python3 installer/install_clone_voice.py
 ```bash
 python3 - <<'PY'
 import urllib.request, tempfile, subprocess, pathlib
-url = 'https://raw.githubusercontent.com/OWNER/clone-voice-node-capability/main/installer/install_clone_voice.py'
+url = 'https://raw.githubusercontent.com/ZRH-Iris/clone-voice-node-capability/main/installer/install_clone_voice.py'
 p = pathlib.Path(tempfile.gettempdir()) / 'install_clone_voice.py'
 p.write_text(urllib.request.urlopen(url).read().decode('utf-8'), encoding='utf-8')
 subprocess.run(['python3', str(p)], check=True)
